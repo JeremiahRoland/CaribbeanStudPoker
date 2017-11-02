@@ -1,0 +1,46 @@
+package caribbean_stud_poker;
+
+/**
+ *
+ * @author Jeremy Roland
+ */
+public class Player 
+{
+    private String hand;
+    private int money;
+    private int wins;
+    private int losses;
+    //createa player object to represent the player 
+    public Player(String h, int m, int w, int l)
+    {
+        h = hand;
+        m = money;
+        w = wins;
+        l = losses;
+    }
+    
+    public String getHand()
+    {
+        return hand;
+    }
+    public void setHand(String cards)
+    {
+        hand = cards;
+    }
+    public int getMoney()
+    {
+        return money;
+    }
+    public void setMoney(int m)
+    {
+        money = m;
+    }
+    public int getWins()
+    {
+        return wins; 
+    }
+    public int getLosses()
+    {
+        return losses;
+    }
+}

@@ -1,0 +1,98 @@
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+/**
+ * This is the starting frame, which acts as a main menu
+ *
+ * @author Jeremiah Roland
+ */
+public class startFrame
+{
+    /**
+     * Create a constructor to make the start frame
+     * This will be the first frame displayed when the game starts, and will be displayed when the game is closed out
+     * Constructs a new frame that is initially invisible 
+     * Throws a HeadlessException
+     * Idea: Display a button that starts our group's card game (Caribbean Stud Poker)
+     * This way, other card games could be implemented using the same style, and have a button to launch them 
+     */
+    public startFrame() throws HeadlessException
+    {
+        
+    }
+    /**
+     * A run() method to run the start frame when game first starts
+     * Is called by other frames when the close game button is clicked
+     */
+    public void run()
+    {
+        //create the frame 
+        JFrame startFrame = new JFrame("Starg Page");
+        
+        //create a button to launch our team's game 
+        JButton cspLaunch = new JButton("Caribbean Stud Poker"); 
+        
+        //create another button to close the game entirely 
+        JButton cancel = new JButton("Close the Program"); 
+        
+        //set the text size and font of the buttons to something easier to read
+        cspLaunch.setFont(new Font("Arial", Font.PLAIN, 35));
+        cancel.setFont(new Font("Arial", Font.PLAIN, 35)); 
+        
+        /**
+         * When the close program button is clicked, have the program closed 
+         * Do this by adding an action listener and using an anonymous class to 
+         * implement the ActionListener interface 
+         * Have the method actionPerformed() called and set what needs to be done 
+         * in the method. For this, dispose of the frame
+         * @param the implicit parameter of this type of call is the button it 
+         * is associated with 
+         */
+        cancel.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent exit)
+            {
+                startFrame.dispose(); 
+            }
+        });
+        
+        /**
+         * When the button for a particular game is clicked, have the program load 
+         * another frame for the particular game.
+         * Add an action listener and use an anonymous class to implement the
+         * ActionListener interface.
+         * Have the method actionPerformed() called and set what needs happen.
+         * @param the implicit parameter of this type of call is the button it is
+         * associated with 
+         */
+        cspLaunch.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent start)
+            {
+                //launch the frame with the actual game here
+                CSP_Game gameStart = new CSP_Game();
+                gameStart.run();
+                startFrame.dispose(); 
+            }
+        });
+        
+        /**
+         * Set the layout of the frame, then add each part of the frame (buttons, etc.)
+         */
+        startFrame.setLayout(new FlowLayout());
+        
+        startFrame.add(cspLaunch);
+        startFrame.add(cancel); 
+        
+        /**
+         * @method setDefaultClosOperation(), used to close the program
+         * if the window of the program is closed, thus avoiding the program 
+         * continuing to run after user closes the window
+         * use the pack() to set the size of the frame to fit all of its contents 
+         * then, set the frame to visible 
+         */
+        startFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        startFrame.pack();
+        startFrame.setVisible(true); 
+    }
+}

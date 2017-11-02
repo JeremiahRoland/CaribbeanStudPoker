@@ -1,0 +1,33 @@
+package caribbean_stud_poker;
+
+/**
+ *
+ * @author Jeremy Roland
+ */
+public class Dealer 
+{
+    private String hand;
+    private int money;
+    //create a dealer object to represent the dealer in the game 
+    public Dealer(String h, int m)
+    {
+        h = hand;
+        m = money;
+    }
+    public String getHand()
+    {
+        return hand;
+    }
+        public void setHand(String cards)
+    {
+        hand = cards;
+    }
+    public int getMoney()
+    {
+        return money;
+    }
+        public void setMoney(int m)
+    {
+        money = m;
+    }
+}

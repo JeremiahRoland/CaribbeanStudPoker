@@ -1,0 +1,12 @@
+/**
+ * Game_Launcher is pretty self explanatory, it launches the game and starts the startFrame, which is the main menu 
+ */
+public class Game_Launcher
+{
+    public static void main (String[] args)
+    {
+        //Make a new startFrame and call the run method to start the frame 
+        startFrame gameStart = new startFrame();
+        gameStart.run(); 
+    }
+}

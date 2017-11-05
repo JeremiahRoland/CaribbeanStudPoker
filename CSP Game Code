@@ -16,6 +16,8 @@ import java.io.*;
  */
 public class CSP_Game
 {
+    //create a global variable called "pot" to hold the current bet amount 
+    public static int pot;
     /**
      * Create a constructor to make the game frame
      * This is done when then corresponding button is clicked in startFrame
@@ -25,92 +27,6 @@ public class CSP_Game
     public CSP_Game() throws HeadlessException
     {
     }
-    //right now, is set to return void
-    //can be changed to return the string values of the hands if needed 
-    public String[] dealCards()
-    {
-        //declare the array in the action performed section
-        //this way, when the button is pressed, it refreshes the deck of cards
-        ArrayList<String> cardDeck = new ArrayList<String>(); 
-        //hearts
-        cardDeck.add("AH");
-        cardDeck.add("2H");
-        cardDeck.add("3H");
-        cardDeck.add("4H");
-        cardDeck.add("5H");
-        cardDeck.add("6H");
-        cardDeck.add("7H");
-        cardDeck.add("8H");
-        cardDeck.add("9H");
-        cardDeck.add("10H");
-        cardDeck.add("JH");
-        cardDeck.add("QH");
-        cardDeck.add("KH"); 
-        //spades 
-        cardDeck.add("AS");
-        cardDeck.add("2S");
-        cardDeck.add("3S");
-        cardDeck.add("4S");
-        cardDeck.add("5S");
-        cardDeck.add("6S");
-        cardDeck.add("7S");
-        cardDeck.add("8S");
-        cardDeck.add("9S");
-        cardDeck.add("10S");
-        cardDeck.add("JS");
-        cardDeck.add("QS");
-        cardDeck.add("KS");
-        //diamonds 
-        cardDeck.add("AD");
-        cardDeck.add("2D");
-        cardDeck.add("3D");
-        cardDeck.add("4D");
-        cardDeck.add("5D");
-        cardDeck.add("6D");
-        cardDeck.add("7D");
-        cardDeck.add("8D");
-        cardDeck.add("9D");
-        cardDeck.add("10D");
-        cardDeck.add("JD");
-        cardDeck.add("QD");
-        cardDeck.add("KD");
-        //clubs 
-        cardDeck.add("AC");
-        cardDeck.add("2C");
-        cardDeck.add("3C");
-        cardDeck.add("4C");
-        cardDeck.add("5C");
-        cardDeck.add("6C");
-        cardDeck.add("7C");
-        cardDeck.add("8C");
-        cardDeck.add("9C");
-        cardDeck.add("10C");
-        cardDeck.add("JC");
-        cardDeck.add("QC");
-        cardDeck.add("KC");
-        Random rand = new Random(); 
-
-        int n = 51;
-        String playerHand = "";
-        String dealerHand = ""; 
-        //for loop to deal the dealer his hand
-        for(int i = 0; i < 5; i++)
-        {
-            int cardNum = rand.nextInt(n) + 0;
-            dealerHand += cardDeck.get(cardNum);
-            cardDeck.remove(cardNum);
-            n--; 
-        }
-        for(int j = 0; j < 5; j++)
-        {
-            int cardNum2 = rand.nextInt(n) + 0;
-            playerHand += cardDeck.get(cardNum2);
-            cardDeck.remove(cardNum2); 
-            n--;
-        }
-        return new String[]{playerHand, dealerHand};
-    }
-    
     public void run()
     {
         //create the frame
@@ -123,14 +39,12 @@ public class CSP_Game
         
         player.setMoney(90);
         dealer.setMoney(90);
+        pot = 0; 
         
         /* Tests*/
-        System.out.println("Player money set to: " + player.getMoney());
-        System.out.println("Dealer money set to: " + dealer.getMoney());
-        
-        int pot = 0;
-        /* Tests*/
-        System.out.println("Pot set to: " + pot);
+        System.out.println("Player doubloons set t' " + player.getMoney());
+        System.out.println("Dealer doubloons set t' " + dealer.getMoney());
+        System.out.println("Current Pot: " + pot);
         
         
         //create a button to return to the previous page
@@ -183,8 +97,8 @@ public class CSP_Game
                boolean dealerPJ = false; 
                
                /* Tests */
-               System.out.println("Player's PJ is: " + playerPJ);
-               System.out.println("Dealer's PJ is: " + dealerPJ);
+               System.out.println("Player's PJ be: " + playerPJ);
+               System.out.println("Dealer's PJ be: " + dealerPJ);
                
                //Create a new JPanel to hold the additional buttons created  
                //and add the buttons to the JPanel
@@ -201,17 +115,32 @@ public class CSP_Game
                    /* Tests */
                    System.out.println("Player money is: " + player.getMoney());
                    
-                   System.out.println("Not enough money for ante");
-                   System.out.println("Game lost, now closing.");
+                   System.out.println("Nah enough doubloons fer ante");
+                   System.out.println("Game lost, now closin'");
                    //add some closing feature 
+                   //add code to inrease player losses 
+               }
+               else if(dealer.getMoney() < 5)
+               {
+                   /* Tests */
+                   System.out.println("Dealer money be: " + dealer.getMoney());
+                   
+                   System.out.println("Dealer has run out o' doubloons 'n cannot place ante, game won!");
+                   System.out.println("Returning to main menu.");
+                   //add some closing feature
+                   //add code to increase player wins 
                }
                else
                {
                    //detract the ante amount from the player and dealer 
                    player.setMoney(player.getMoney()-5);
                    dealer.setMoney(dealer.getMoney()-5);
-                   //add the two antes to the pot 
-                   int pot = 10; 
+                   
+                   //add the two antes to the pot  
+                   pot += 10;
+                   
+                   /* Test */
+                   System.out.println("Current Pot: " + pot);
                    
                    //reveal PJ and PLAY buttons
                    /**
@@ -252,12 +181,12 @@ public class CSP_Game
                               player.setMoney(player.getMoney()-10); 
                               boolean playerPJ = true;
                               //System.out.println("playerPJ was updated to " + playerPJ);
-                              System.out.println("Player entered Progressive Jackpot!");
+                              System.out.println("Player boarded Progressive Jackpot!");
                               //replace the PJ button with some picture or text 
                           }
                           else
                           {
-                              System.out.println("Not enough money for Progressive Jackpot");
+                              System.out.println("Nah enough doubloons fer Progressive Jackpot");
                           }
                       }
                    }); 
@@ -270,6 +199,8 @@ public class CSP_Game
                     */
                     Random rand2 = new Random();
                     int x = rand2.nextInt(2);
+                    /* Test */
+                    System.out.println("RNG x = " + x);
                     if(x == 1)
                     {
                         if(dealer.getMoney() > 10)
@@ -278,11 +209,11 @@ public class CSP_Game
                             //from dealer's money and set dealerPJ to true 
                             dealer.setMoney(dealer.getMoney()-10);
                             dealerPJ = true;
-                            System.out.println("Dealer has entered Progressive Jackpot!");
+                            System.out.println("Dealer has boarded Progressive Jackpot!");
                         }
                         else
                         {
-                            System.out.println("Dealer tried to enter Progressive Jackpot, but didn't have the funds.");
+                            System.out.println("Dealer tried t' board Progressive Jackpot, but didn' 'ave th' funds.");
                         }
                     }
 
@@ -386,12 +317,14 @@ public class CSP_Game
                            player.setHand(playerHand);
                            dealer.setHand(dealerHand);
                            
-                           //System.out.println("Player Hand: " + player.getHand());
-                           //System.out.println("Dealer Hand: " + dealer.getHand());
+                           /* Tests */                       
+                           System.out.println("Player Hand: " + player.getHand());
+                           System.out.println("Dealer Hand: " + dealer.getHand());
                            
                            //remove the progJack button
                            //if the player entered the jackpot, then leave the image in its place 
                            cspFrame.remove(progJack);
+                           
                            //button to raise the current bet 
                            JButton raise = new JButton("Raise");
                            raise.setFont(new Font("Arial", Font.PLAIN, 35));
@@ -400,11 +333,16 @@ public class CSP_Game
                            JButton fold = new JButton("Fold");
                            fold.setFont(new Font("Arial", Font.PLAIN, 35));
                            
+                           //button to finalize the raises/bet 
+                           JButton finalized = new JButton("Finalize");
+                           finalized.setFont(new Font("Arial", Font.PLAIN, 35));
+                           
                            //remove the play button
                            cspFrame.remove(play);
                            
                            cspFrame.add(raise);
                            cspFrame.add(fold);
+                           cspFrame.add(finalized);
                            cspFrame.revalidate();
                            cspFrame.repaint(); 
                            
@@ -440,47 +378,72 @@ public class CSP_Game
                                    JTextArea playerBet = new JTextArea();
                                    playerBet.setEditable(false);
                                    playerBet.setOpaque(false);
-                                   playerBet.setText("You currently have " + player.getMoney()+ " for betting. " + "\n" + 
-                                           "How much would you like to bet?"); 
+                                   playerBet.setText("Ye currently 'ave " + player.getMoney()+ " fer bettin'. " + "\n" + 
+                                           "How much would ye like t' bet?"); 
+                                   
                                    playerBet.setFont(playerBet.getFont().deriveFont(20f));
                                    
                                    int answer = Integer.parseInt(JOptionPane.showInputDialog(playerBet));
                                    //if the player doesn't have enough money to meet their bet 
                                    if(player.getMoney() < answer)
                                    {
-                                       System.out.println("Error: Not enough funds.  Press play again to re-enter your raise.");
+                                       //System.out.println("Error: Not enough funds.  Press raise again to re-enter your raise.");
+                                       /**
+                                        * Create a JTextArea to display text so it is easier to read than the default text size for the JOptionPane
+                                        * set editable, opaque, text, and font to make it easy to read
+                                        * @method setEditable makes it so the user can't edit it
+                                        * @method setOpague(false) sets the background of the text area to clear
+                                        * @method setText adds text output to the text area
+                                        * @method setFont sets the font of the text area
+                                        */
+                                       JTextArea message = new JTextArea();
+                                       message.setEditable(false);
+                                       message.setOpaque(false);
+                                       message.setText("Nah enough doubloons.  Press 'raise' again t' re-board yer raise ");
+                                       message.setFont(message.getFont().deriveFont(20f));
+
+                                       JOptionPane.showMessageDialog(cspFrame, message, "Ye haven't enough doubloons", 
+                                               JOptionPane.INFORMATION_MESSAGE);
                                    }
                                    else
                                    {
                                        //take the player's bet and detract it from their money
                                        //add that to the raises 
                                        player.setMoney(player.getMoney() - answer);
-                                       System.out.println("Player placed their raise.");
+                                       System.out.println("Player placed thar raise.");
                                        raises += answer;
                                        
                                        //calculate the raise of the dealer based on player's 
                                        if(dealer.getMoney() < answer)
                                        {
                                            int dealerBet = dealer.getMoney();
-                                           System.out.println("Dealer couldn't match player's raise.  All dealer money in pot"); 
-                                           System.out.println("Returning difference to player"); 
+                                           System.out.println("Dealer couldn't match player's raise.  All dealer doubloons in pot"); 
+                                           System.out.println("Returnin' difference t' player"); 
                                            int returnMoney = answer - dealerBet;
                                            player.setMoney(player.getMoney() + returnMoney);
                                            raises -= returnMoney;
                                            raises += dealerBet;
+                                           
+                                           System.out.println("Dealer has no more doubloons t' bet, no more raises allowed");
+                                           cspFrame.remove(raise);
+                                           cspFrame.revalidate();
+                                           cspFrame.repaint(); 
+                                           
                                        }
                                        else
                                        {
                                            raises += answer;
                                            dealer.setMoney(dealer.getMoney() - answer);
-                                           System.out.println("Dealer matched palyer's raise.");
+                                           System.out.println("Dealer matched player's raise.");
                                        }
-                                       cspFrame.remove(raise);
-                                       cspFrame.revalidate();
-                                       cspFrame.repaint(); 
+                                       //cspFrame.remove(raise);
+                                       //cspFrame.revalidate();
+                                       //cspFrame.repaint(); 
                                        
-                                       int pot = 10 + raises;
-                                       //compare cards now 
+                                       pot += raises;
+                                       
+                                       /* Tests */
+                                       System.out.println("Current Pot: " + pot);
                                    }
                               }
                            }); 
@@ -499,17 +462,17 @@ public class CSP_Game
                            {
                               public void actionPerformed(ActionEvent folding)
                               {
-                                int select = JOptionPane.showConfirmDialog(null, "Do you want to fold?", "Fold?", JOptionPane.YES_NO_OPTION); 
+                                int select = JOptionPane.showConfirmDialog(null, "Do ye wants t' fold?", "Fold?", JOptionPane.YES_NO_OPTION); 
                                 if (select == JOptionPane.YES_OPTION) 
                                 {
                                     dealer.setMoney(dealer.getMoney() + pot);
                                     //compare cards or just clear hand 
                                     //start a new round
-                                    int startAgain = JOptionPane.showConfirmDialog(null, "Do you want to start a new round?", 
+                                    int startAgain = JOptionPane.showConfirmDialog(null, "Do ye wants t' start a new round?", 
                                             "Start New Round?", JOptionPane.YES_NO_OPTION); 
                                     if (startAgain == JOptionPane.NO_OPTION) 
                                     {
-                                        System.out.println("Ok, returning to main menu"); 
+                                        System.out.println("Aye, returnin' t' main menu"); 
                                         startFrame returnStart = new startFrame();
                                         returnStart.run();
                                         cspFrame.dispose();
@@ -521,6 +484,7 @@ public class CSP_Game
                                         cspFrame.removeAll();
                                         cspFrame.revalidate();
                                         cspFrame.repaint(); 
+                                        pot = 0; 
                                         
                                         System.out.println("Current Player Money: " + player.getMoney());
                                         System.out.println("Current Dealer Money: " + player.getMoney());
@@ -533,70 +497,36 @@ public class CSP_Game
                                 }
                               }
                            });
+                           /**
+                            * When the finalize button is pressed, remove raise/fold buttons and compare cards
+                            * Add an action listener and use an anonymous class to 
+                            * implement the ActionListener interface
+                            * Have the method actionPerformed(ActionEvent name) called and set what 
+                            * needs to be done in the method
+                            * For this, call the startFrame constructor, then the run method to show the
+                            * start frame, then dispose of the CSP frame
+                            * @param the implicit parameter of this type of call is the button associated
+                            * with it 
+                            */
+                           finalized.addActionListener(new ActionListener()
+                           {
+                              public void actionPerformed(ActionEvent finalize)
+                              {
+                                  int done = JOptionPane.showConfirmDialog(null, 
+                                          "Do ye wish t' compare cards now?", "Done Raising?", JOptionPane.YES_NO_OPTION);
+                                  if (done == JOptionPane.YES_OPTION)
+                                  {
+                                      cspFrame.remove(raise);
+                                      cspFrame.remove(fold);
+                                      cspFrame.revalidate();
+                                      cspFrame.repaint(); 
+                                      //compare cards now 
+                                  }
+                              }
+                           }); 
                         }
-                 });
-                  
+                 });                  
                 }
-               /**
-                * Upon clicking the ANTE button, erase the ANTE button and
-                * display the Progressive Jackpot and PLAY buttons
-                * Progressive Jackpot feature
-                * If they accept, then withdraw the money from playerMoney
-                * If not, then do nothing and close the option
-                * Use Random Number Generator to decide if Dealer will take part
-                * in Progressive Jackpot feature
-                * Once PJ and ante money is in, deal the cards
-                * do this by making a PLAY button to perform the card dealing
-                * .
-                */
-               /**
-                * Once cards are dealt, display the Raise and Fold buttons
-                * If the raise button is pressed, ask for user input for the amount
-                * of money to raise
-                * Compare this money to playerMoney to see if they have the coin
-                * to make the raise
-                * If not, then display a message saying "not enough money"
-                * If yes, then withdraw money from playerMoney and place in bet pool
-                * When the player raises, the dealer does too
-                * If the fold button is pressed, then clear bet pool and restart game
-                * .
-                */
-               /**
-                * Once the player is done raising, then show the dealer's cards and
-                * compare them to the player's cards
-                * Use the rules to determine who won
-                * .
-                */ 
-               /**
-                * Upon clicking the ANTE button, erase the ANTE button and 
-                * display the Progressive Jackpot and PLAY buttons
-                * Progressive Jackpot feature
-                * If they accept, then withdraw the money from playerMoney 
-                * If not, then do nothing and close the option
-                * Use Random Number Generator to decide if Dealer will take part 
-                * in Progressive Jackpot feature
-                * Once PJ and ante money is in, deal the cards
-                * do this by making a PLAY button to perform the card dealing
-                * . 
-                */               
-               /**
-                * Once cards are dealt, display the Raise and Fold buttons 
-                * If the raise button is pressed, ask for user input for the amount 
-                * of money to raise
-                * Compare this money to playerMoney to see if they have the coin 
-                * to make the raise
-                * If not, then display a message saying "not enough money"
-                * If yes, then withdraw money from playerMoney and place in bet pool
-                * When the player raises, the dealer does too 
-                * If the fold button is pressed, then clear bet pool and restart game 
-                * .
-                */
-               /**
-                * Once the player is done raising, then show the dealer's cards and 
-                * compare them to the player's cards 
-                * Use the rules to determine who won 
-                * .
-                */
                
                 //add any remaining buttons and set the JPanel visibility to true, size to whatever you want it to be, and add the JPanel to the frame
                 newButtons.setLayout(new GridLayout(2, 2));

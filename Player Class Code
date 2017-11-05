@@ -1,5 +1,11 @@
 package caribbean_stud_poker;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+
 /**
  *
  * @author Jeremy Roland
@@ -35,12 +41,143 @@ public class Player
     {
         money = m;
     }
-    public int getWins()
+    //increases player wins by 1
+    public void setWins()
     {
-        return wins; 
+        int playerWins = 0; 
+        //read in the number from the file "playerWins" 
+        try
+        {   
+            /**
+             * Call the filereader class and create an object to read from the file
+             * Create an object of bufferedReader type that actually reads the text from the file
+             * Create a variable for holding each line of text read from the file
+             */
+
+            FileReader winReader = new FileReader("playerWins.txt");
+            BufferedReader bufReader1 = new BufferedReader(winReader);
+            String line1;
+            /**
+             * A while loop for reading each line of text in the file myClasses.txt
+             * Condition for while loop sets the null string to what the bufferedReader object
+             * read in the previous line from the file.  While loop continues to add lines
+             * to the arraylist so long as the line isn't empty (or null).
+             */
+            while((line1 = bufReader1.readLine()) != null)
+            {
+                playerWins = Integer.parseInt(line1);
+            }
+            //close the bufferedReader object so the file will be readable.
+            bufReader1.close();
+        }
+        /**
+         * Catch statement for I/O exceptions as to avoid the program crashing should an I/O exception occur
+         * @catch I/O exception will catch the exception if writing to a drive that doesn't exist or there's 
+         * a problem with the disk drive itself
+         */
+        catch(IOException e)
+        {       
+            System.out.println("I/O Error");
+        }
+        //increase playerWins by 1
+        playerWins++;
+        //write the updated playerWins to the "playerWins" file 
+        /**
+         * Try and catch block, necessary when reading/writing I/O to and from a file
+         */
+        try
+        {
+            //Create a filewriter object to create a file to write text to a file
+            FileWriter winWriter = new FileWriter("playerWins.txt");
+            //create a printwriter object to actually write text to the file
+            PrintWriter winPrinter = new PrintWriter(winWriter);
+
+            /**
+             * Print text to the file using different println statements
+             * to separate text as different lines in the file.
+             * Finish with printer.close() to close the file so file will be
+             * readable
+             */
+            winPrinter.println(playerWins);
+            winPrinter.close();
+        }
+        /**
+         * Catch statement for I/O exceptions as to avoid the program crashing should an I/O exception occur
+         * @catch I/O exception will catch the exception if writing to a drive that doesn't exist or there's 
+         * a problem with the disk drive itself
+         */
+        catch(IOException e)
+        {
+            System.out.println("I/O Error");
+        }
     }
-    public int getLosses()
+    public void setLosses()
     {
-        return losses;
+        int playerLosses = 0; 
+        //read in the number from the file "playerWins" 
+        try
+        {   
+            /**
+             * Call the filereader class and create an object to read from the file
+             * Create an object of bufferedReader type that actually reads the text from the file
+             * Create a variable for holding each line of text read from the file
+             */
+
+            FileReader lossReader = new FileReader("playerLosses.txt");
+            BufferedReader bufReader2 = new BufferedReader(lossReader);
+            String line2;
+            /**
+             * A while loop for reading each line of text in the file myClasses.txt
+             * Condition for while loop sets the null string to what the bufferedReader object
+             * read in the previous line from the file.  While loop continues to add lines
+             * to the arraylist so long as the line isn't empty (or null).
+             */
+            while((line2 = bufReader2.readLine()) != null)
+            {
+                playerLosses = Integer.parseInt(line2);
+            }
+            //close the bufferedReader object so the file will be readable.
+            bufReader2.close();
+        }
+        /**
+         * Catch statement for I/O exceptions as to avoid the program crashing should an I/O exception occur
+         * @catch I/O exception will catch the exception if writing to a drive that doesn't exist or there's 
+         * a problem with the disk drive itself
+         */
+        catch(IOException e)
+        {       
+            System.out.println("I/O Error");
+        }
+        //increase playerWins by 1
+        playerLosses++;
+        //write the updated playerWins to the "playerWins" file 
+        /**
+         * Try and catch block, necessary when reading/writing I/O to and from a file
+         */
+        try
+        {
+            //Create a filewriter object to create a file to write text to a file
+            FileWriter winWriter = new FileWriter("playerLosses.txt");
+            //create a printwriter object to actually write text to the file
+            PrintWriter winPrinter = new PrintWriter(winWriter);
+
+            /**
+             * Print text to the file using different println statements
+             * to separate text as different lines in the file.
+             * Finish with printer.close() to close the file so file will be
+             * readable
+             */
+            winPrinter.println(playerLosses);
+            winPrinter.close();
+        }
+        /**
+         * Catch statement for I/O exceptions as to avoid the program crashing should an I/O exception occur
+         * @catch I/O exception will catch the exception if writing to a drive that doesn't exist or there's 
+         * a problem with the disk drive itself
+         */
+        catch(IOException e)
+        {
+            System.out.println("I/O Error");
+        }
     }
 }

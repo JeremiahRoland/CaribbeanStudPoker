@@ -1,4 +1,5 @@
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,51 +14,79 @@ public class Game_Launcher
         //create two files
         //first will hold the player's wins 
         //second will hold the player's losses 
-        /**
-         * Try and catch block, necessary when reading/writing I/O to and from a file
-         */
-        try
+        
+        //create a file
+        File winLog = new File("playerWins.txt");
+        
+        //see if the file already exists, if yes, then don't alter the file
+        //if no, then create the file and initialize the contents to 0 wins 
+        if(winLog.exists() == true)
+            {
+                System.out.println("playerWins file found");
+            }
+        else
         {
-            //Create a filewriter object to create a file to write text to a file
-            FileWriter winWriter = new FileWriter("playerWins.txt");
-            //create a printwriter object to actually write text to the file
-            PrintWriter winPrinter = new PrintWriter(winWriter);
-            
-            /* Do not actually write anything, just create the file to be updated later */ 
-            /* This is done to avoid IO errors for player methods */ 
-        }
-        /**
-         * Catch statement for I/O exceptions as to avoid the program crashing should an I/O exception occur
-         * @catch I/O exception will catch the exception if writing to a drive that doesn't exist or there's 
-         * a problem with the disk drive itself
-         */
-        catch(IOException e)
-        {
-            System.out.println("I/O Error");
+            System.out.println("No playerWins file found, creating new one");
+            /**
+             * Try and catch block, necessary when reading/writing I/O to and from a file
+             */
+            try
+            {
+                //Create a filewriter object to create a file to write text to a file
+                FileWriter winWriter = new FileWriter("playerWins.txt");
+                //create a printwriter object to actually write text to the file
+                PrintWriter winPrinter = new PrintWriter(winWriter);
+
+                winPrinter.println("0");
+                winPrinter.close(); 
+            }
+            /**
+             * Catch statement for I/O exceptions as to avoid the program crashing should an I/O exception occur
+             * @catch I/O exception will catch the exception if writing to a drive that doesn't exist or there's 
+             * a problem with the disk drive itself
+             */
+            catch(IOException e)
+            {
+                System.out.println("I/O Error");
+            }
         }
         
-        /**
-         * Try and catch block, necessary when reading/writing I/O to and from a file
-         */
-        try
+        //create a file for losses 
+        File lossLog = new File("playerLosses.txt"); 
+        
+        //check if the file exists, if yes, then don't alter the file 
+        //if no, then create a new file and initialize the contents to 0 losses 
+        if(lossLog.exists())
         {
-            //Create a filewriter object to create a file to write text to a file
-            FileWriter lossWriter = new FileWriter("playerLosses.txt");
-            //create a printwriter object to actually write text to the file
-            PrintWriter lossPrinter = new PrintWriter(lossWriter);
-            
-            /* Do not actually write anything, just create the file to be updated later */ 
-            /* This is done to avoid IO errors for player methods */ 
+            System.out.println("playerLoss file found"); 
         }
-        /**
-         * Catch statement for I/O exceptions as to avoid the program crashing should an I/O exception occur
-         * @catch I/O exception will catch the exception if writing to a drive that doesn't exist or there's 
-         * a problem with the disk drive itself
-         */
-        catch(IOException e)
+        else
         {
-            System.out.println("I/O Error");
+            System.out.println("No playerLoss file found, creating new one");
+            /**
+             * Try and catch block, necessary when reading/writing I/O to and from a file
+             */
+            try
+            {
+                //Create a filewriter object to create a file to write text to a file
+                FileWriter lossWriter = new FileWriter("playerLosses.txt");
+                //create a printwriter object to actually write text to the file
+                PrintWriter lossPrinter = new PrintWriter(lossWriter);
+
+                lossPrinter.println("0");
+                lossPrinter.close(); 
+            }
+            /**
+             * Catch statement for I/O exceptions as to avoid the program crashing should an I/O exception occur
+             * @catch I/O exception will catch the exception if writing to a drive that doesn't exist or there's 
+             * a problem with the disk drive itself
+             */
+            catch(IOException e)
+            {
+                System.out.println("I/O Error");
+            }
         }
+        
         
         //Make a new startFrame and call the run method to start the frame 
         startFrame gameStart = new startFrame();

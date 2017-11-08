@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
 /**
  *
@@ -12,26 +13,11 @@ import java.io.PrintWriter;
  */
 public class Player 
 {
-    private String hand;
     private int money;
-    private int wins;
-    private int losses;
     //createa player object to represent the player 
-    public Player(String h, int m, int w, int l)
+    public Player(int m)
     {
-        h = hand;
-        m = money;
-        w = wins;
-        l = losses;
-    }
-    
-    public String getHand()
-    {
-        return hand;
-    }
-    public void setHand(String cards)
-    {
-        hand = cards;
+        money = m; 
     }
     public int getMoney()
     {

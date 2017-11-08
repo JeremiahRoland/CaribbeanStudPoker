@@ -6,21 +6,11 @@ package caribbean_stud_poker;
  */
 public class Dealer 
 {
-    private String hand;
     private int money;
     //create a dealer object to represent the dealer in the game 
-    public Dealer(String h, int m)
+    public Dealer(int m)
     {
-        h = hand;
-        m = money;
-    }
-    public String getHand()
-    {
-        return hand;
-    }
-        public void setHand(String cards)
-    {
-        hand = cards;
+        money = m; 
     }
     public int getMoney()
     {

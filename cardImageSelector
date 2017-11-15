@@ -1,0 +1,107 @@
+package caribbean_stud_poker;
+
+import java.util.ArrayList;
+
+public class cardImageSelector 
+{
+    public void cardPlace(ArrayList<String> playerHand, ArrayList<String> dealerHand)
+    {
+        //create an arraylist to hold the cards in the deck 
+        
+        ArrayList<String> cardDeck = new ArrayList<String>(); 
+        //hearts
+        cardDeck.add("AH");
+        cardDeck.add("2H");
+        cardDeck.add("3H");
+        cardDeck.add("4H");
+        cardDeck.add("5H");
+        cardDeck.add("6H");
+        cardDeck.add("7H");
+        cardDeck.add("8H");
+        cardDeck.add("9H");
+        cardDeck.add("10H");
+        cardDeck.add("JH");
+        cardDeck.add("QH");
+        cardDeck.add("KH"); 
+        //spades 
+        cardDeck.add("AS");
+        cardDeck.add("2S");
+        cardDeck.add("3S");
+        cardDeck.add("4S");
+        cardDeck.add("5S");
+        cardDeck.add("6S");
+        cardDeck.add("7S");
+        cardDeck.add("8S");
+        cardDeck.add("9S");
+        cardDeck.add("10S");
+        cardDeck.add("JS");
+        cardDeck.add("QS");
+        cardDeck.add("KS");
+        //diamonds 
+        cardDeck.add("AD");
+        cardDeck.add("2D");
+        cardDeck.add("3D");
+        cardDeck.add("4D");
+        cardDeck.add("5D");
+        cardDeck.add("6D");
+        cardDeck.add("7D");
+        cardDeck.add("8D");
+        cardDeck.add("9D");
+        cardDeck.add("10D");
+        cardDeck.add("JD");
+        cardDeck.add("QD");
+        cardDeck.add("KD");
+        //clubs 
+        cardDeck.add("AC");
+        cardDeck.add("2C");
+        cardDeck.add("3C");
+        cardDeck.add("4C");
+        cardDeck.add("5C");
+        cardDeck.add("6C");
+        cardDeck.add("7C");
+        cardDeck.add("8C");
+        cardDeck.add("9C");
+        cardDeck.add("10C");
+        cardDeck.add("JC");
+        cardDeck.add("QC");
+        cardDeck.add("KC");
+        
+        //use imbedded forloops 
+        //I named each forloop to specify which loop will be broken
+        //the outer loop A loops over the player's hand
+        //the inner loop B loops over the cards, comparing the player's card at a position
+        //to the card currently selected
+        //if the cards match, then the image is selected and the inner loop broken 
+        //if they don't match, then the next card in the deck is selected for comparison 
+        A: for(int i = 0; i < playerHand.size(); i++)
+        {
+            B: for(int o = 0; o < cardDeck.size(); o++)
+            {
+                if(playerHand.get(i).equals(cardDeck.get(o)))
+                {
+                    //display the appropriate card here 
+                    break B;//here, i'm specifying that loop B is to be broken out of 
+                }
+            }
+        }
+        
+        //use imbedded forloops 
+        //I named each forloop to specify which loop will be broken 
+        //the outer loop C loops over the dealer's hand
+        //the inner loop D loops over the cards, comparing the dealer's card at a position
+        //to the card currently selected
+        //if the cards match, then the image is selected and the inner loop broken 
+        //if they don't match, then the next card in the deck is selected for comparison 
+        C: for(int i = 0; i < dealerHand.size(); i++)
+        {
+            D: for(int o = 0; o < cardDeck.size(); o++)
+            {
+                if(playerHand.get(i).equals(cardDeck.get(o)))
+                {
+                    //display the appropriate card here 
+                    break D;//here, I'm specifying that loop D is to be broken out of 
+                }
+            }
+        }
+    }
+}

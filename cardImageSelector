@@ -96,7 +96,7 @@ public class cardImageSelector
         {
             D: for(int o = 0; o < cardDeck.size(); o++)
             {
-                if(playerHand.get(i).equals(cardDeck.get(o)))
+                if(dealerHand.get(i).equals(cardDeck.get(o)))
                 {
                     //display the appropriate card here 
                     break D;//here, I'm specifying that loop D is to be broken out of 

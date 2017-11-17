@@ -1,0 +1,14 @@
+#BlueJ class context
+comment0.target=startFrame
+comment0.text=\r\n\ Write\ a\ description\ of\ class\ startFrame\ here.\r\n\r\n\ @author\ (your\ name)\r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
+comment1.params=
+comment1.target=startFrame()
+comment1.text=\r\n\ Create\ a\ constructor\ to\ make\ the\ start\ frame\r\n\ This\ will\ be\ the\ first\ frame\ displayed\ when\ the\ game\ starts,\ and\ will\ be\ displayed\ when\ the\ game\ is\ closed\ out\r\n\ Constructs\ a\ new\ frame\ that\ is\ initially\ invisible\ \r\n\ Throws\ a\ HeadlessException\r\n\ Idea\:\ Display\ a\ button\ that\ starts\ our\ group's\ card\ game\ (Caribbean\ Stud\ Poker)\r\n\ This\ way,\ other\ card\ games\ could\ be\ implemented\ using\ the\ same\ style,\ and\ have\ a\ button\ to\ launch\ them\ \r\n
+comment2.params=
+comment2.target=void\ run()
+comment2.text=\r\n\ A\ run()\ method\ to\ run\ the\ start\ frame\ when\ game\ first\ starts\r\n\ Is\ called\ by\ other\ frames\ when\ the\ close\ game\ button\ is\ clicked\r\n
+comment3.params=exit
+comment3.target=void\ actionPerformed(java.awt.event.ActionEvent)
+comment4.params=start
+comment4.target=void\ actionPerformed(java.awt.event.ActionEvent)
+numComments=5

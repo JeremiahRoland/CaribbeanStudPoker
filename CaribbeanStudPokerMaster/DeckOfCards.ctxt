@@ -1,0 +1,8 @@
+#BlueJ class context
+comment0.params=
+comment0.target=DeckOfCards()
+comment0.text=\r\n\ Constructor\ to\ build\ deck\ of\ cards\r\n
+comment1.params=
+comment1.target=void\ shuffle()
+comment1.text=\r\n\ Shuffle\ deck\ by\ choosing\ a\ card\ and\ swapping\ with\ another\ random\ card\r\n
+numComments=2

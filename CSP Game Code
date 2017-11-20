@@ -3,7 +3,10 @@ import caribbean_stud_poker.Dealer;
 import caribbean_stud_poker.Player;
 import java.awt.*;
 import static java.awt.Color.BLACK;
+import static java.awt.Color.RED;
+import static java.awt.Color.WHITE;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
 import javax.swing.*; 
 import java.util.ArrayList;
 import java.util.Random; 
@@ -18,50 +21,63 @@ import javax.imageio.ImageIO;
  *
  * @author Jeremiah Roland
  */
-public class CSP_Game
+public class CSP_Game extends JFrame
 {
     
     
     //create a global variable called "pot" to hold the current bet amount 
     public static int pot;
+    public static boolean dealerPJ;
+    public static boolean playerPJ;
     /**
      * Create a constructor to make the game frame
      * This is done when then corresponding button is clicked in startFrame
      * Constructs a new frame that starts as invisible
      * Throws a HeadlessException
      */
+    
     public CSP_Game() throws HeadlessException
     {
     }
-    public void run()
+    public void run(int x, int y)
     {
         //create the frame
         JFrame cspFrame = new JFrame("Caribbean Stud Poker");        
-        cspFrame.getContentPane().setBackground(BLACK);
+        //cspFrame.getContentPane().setBackground(RED);
+        pot = 0;
+        dealerPJ = false;
+        playerPJ = false;
         
-        //create two objects, a dealer and a player 
-        //parameters: ("cards", money, wins, losses)
-        //start out with 90 cash, may change later 
         Player player = new Player(0);
         Dealer dealer = new Dealer(0);
+        player.setMoney(x);
+        dealer.setMoney(y);
         
-        player.setMoney(90);
-        dealer.setMoney(90);
-        pot = 0; 
-        
-        /* Tests*/
-        System.out.println("Player doubloons set t' " + player.getMoney());
-        System.out.println("Dealer doubloons set t' " + dealer.getMoney());
-        System.out.println("Current Pot: " + pot);
-        
+        JTextArea potText = new JTextArea();
+        potText.setEditable(false);
+        potText.setOpaque(false);
+        potText.setText("CURRENT POT: " + pot + "\n" + "Current doubloons: " + player.getMoney());
+        potText.setFont(potText.getFont().deriveFont(40f));
+        //potText.setForeground(WHITE);
+        cspFrame.add(potText);
+        //create two objects, a dealer and a player 
+        //parameters: ("cards", money, wins, losses)
+        //start out with 90 cash, may change later    
         
         //create a button to return to the previous page
         JButton close = new JButton("Close Game");
         close.setFont(new Font("Arial", Font.PLAIN, 35)); 
+        //close.setBackground(BLACK);
+        //close.setForeground(WHITE);
+        //close.setBorderPainted(false);
         
         //button to place an ante 
         JButton placeAnte = new JButton("Place Ante");
-        placeAnte.setFont(new Font("Arial", Font.PLAIN, 35));           
+        placeAnte.setFont(new Font("Arial", Font.PLAIN, 35));   
+        //placeAnte.setBackground(BLACK);
+        //placeAnte.setForeground(WHITE);
+        //placeAnte.setBorderPainted(false);
+        
         
         /**
          * When the close button is clicked, have the program closed.
@@ -98,12 +114,7 @@ public class CSP_Game
         placeAnte.addActionListener(new ActionListener()
         {
            public void actionPerformed(ActionEvent exit)
-           {
-               //create 2 boolean variables to determine player and dearl PJ
-               boolean playerPJ = false; 
-               //System.out.println("Initial playerPJ is " + playerPJ);
-               boolean dealerPJ = false; 
-               
+           {               
                /* Tests */
                System.out.println("Player's PJ be: " + playerPJ);
                System.out.println("Dealer's PJ be: " + dealerPJ);
@@ -111,7 +122,12 @@ public class CSP_Game
                //Create a new JPanel to hold the additional buttons created  
                //and add the buttons to the JPanel
                JPanel newButtons = new JPanel();
+               //newButtons.setBackground(Color.BLACK); 
+               newButtons.setLayout(new FlowLayout());
+               
                JPanel dealerSide = new JPanel(); 
+               //dealerSide.setBackground(Color.BLACK); 
+               dealerSide.setLayout(new FlowLayout());
                /**
                 * Check if the player has enough money to place the ante 
                 * If not, then display a message saying "not enough funds"
@@ -121,23 +137,26 @@ public class CSP_Game
                 */
                if(player.getMoney() < 5)
                {
-                   /* Tests */
-                   System.out.println("Player money is: " + player.getMoney());
-                   
-                   System.out.println("Nah enough doubloons fer ante");
-                   System.out.println("Game lost, now closin'");
+                   JOptionPane.showMessageDialog(cspFrame, "Nah enough doubloons fer ante. Returnin' t' main menu", "Game Lost",
+                        JOptionPane.INFORMATION_MESSAGE);
                    //add some closing feature 
+                   startFrame returnStart = new startFrame();
+                    returnStart.run();
+                    cspFrame.dispose();
                    //add code to inrease player losses 
+                   player.setLosses();
                }
                else if(dealer.getMoney() < 5)
                {
-                   /* Tests */
-                   System.out.println("Dealer money be: " + dealer.getMoney());
-                   
-                   System.out.println("Dealer has run out o' doubloons 'n cannot place ante, game won!");
-                   System.out.println("Returning to main menu.");
+                   JOptionPane.showMessageDialog(cspFrame, "Dealer has run out o' doubloons 'n cannot place ante, game won!" 
+                           + "\n" + "Returnin' to main menu", "Game Lost",
+                        JOptionPane.INFORMATION_MESSAGE);
                    //add some closing feature
+                   startFrame returnStart = new startFrame();
+                    returnStart.run();
+                    cspFrame.dispose();
                    //add code to increase player wins 
+                   player.setWins(); 
                }
                else
                {
@@ -146,10 +165,8 @@ public class CSP_Game
                    dealer.setMoney(dealer.getMoney()-5);
                    
                    //add the two antes to the pot  
-                   pot += 10;
-                   
-                   /* Test */
-                   System.out.println("Current Pot: " + pot);
+                   pot += 10;                  
+                   potText.setText("CURRENT POT: " + pot + "\n" + "Current doubloons: " + player.getMoney());
                    
                    //reveal PJ and PLAY buttons
                    /**
@@ -158,10 +175,17 @@ public class CSP_Game
                    //button to initiate the card dealing 
                    JButton play = new JButton("PLAY");
                    play.setFont(new Font("Arial", Font.PLAIN, 35));
+                   //play.setBackground(BLACK);
+                   //play.setForeground(WHITE);
+                   //play.setBorderPainted(false);
                    
                    //button to enter into the progressive jackpot feature 
                    JButton progJack = new JButton("Progressive Jackpot");
                    progJack.setFont(new Font("Arial", Font.PLAIN, 35)); 
+                   //progJack.setBackground(BLACK);
+                   //progJack.setForeground(WHITE);
+                   //progJack.setBorderPainted(false);
+                   
                    
                    cspFrame.add(play);
                    cspFrame.add(progJack);
@@ -188,14 +212,18 @@ public class CSP_Game
                           if(player.getMoney() > 10)
                           {
                               player.setMoney(player.getMoney()-10); 
-                              boolean playerPJ = true;
+                              playerPJ = true;
                               //System.out.println("playerPJ was updated to " + playerPJ);
-                              System.out.println("Player boarded Progressive Jackpot!");
-                              //replace the PJ button with some picture or text 
+                              JOptionPane.showMessageDialog(cspFrame, "Ye have boarded Progressive Jackpot", "Progressive Jackpot!",
+                                JOptionPane.INFORMATION_MESSAGE);
+                              cspFrame.remove(progJack);
+                              potText.setText("CURRENT POT: " + pot + "\n" + "Current doubloons: " + player.getMoney());
+
                           }
                           else
                           {
-                              System.out.println("Nah enough doubloons fer Progressive Jackpot");
+                            JOptionPane.showMessageDialog(cspFrame, "Nah enough doubloons fer Progressive Jackpot", "Progressive Jackpot",
+                                JOptionPane.INFORMATION_MESSAGE);
                           }
                       }
                    }); 
@@ -326,78 +354,75 @@ public class CSP_Game
                                cardDeck.remove(cardNum2); 
                                n--;
                            }
-                           //set the player and dealer hands to the randomly generated 
-                           
-    newButtons.setBackground(Color.BLACK); 
-    newButtons.setLayout(new FlowLayout());
-    ImageIcon ph1 = new ImageIcon("D:\\CPSC Software Engineering\\Project Stuff\\Caribbean_Stud_Poker\\src\\" + playerHand.get(0) +".jpg"); 
-    ImageIcon ph2 = new ImageIcon("D:\\CPSC Software Engineering\\Project Stuff\\Caribbean_Stud_Poker\\src\\" + playerHand.get(1) +".jpg"); 
-    ImageIcon ph3 = new ImageIcon("D:\\CPSC Software Engineering\\Project Stuff\\Caribbean_Stud_Poker\\src\\" + playerHand.get(2) +".jpg"); 
-    ImageIcon ph4 = new ImageIcon("D:\\CPSC Software Engineering\\Project Stuff\\Caribbean_Stud_Poker\\src\\" + playerHand.get(3) +".jpg"); 
-    ImageIcon ph5 = new ImageIcon("D:\\CPSC Software Engineering\\Project Stuff\\Caribbean_Stud_Poker\\src\\" + playerHand.get(4) +".jpg"); 
+                            ImageIcon ph1 = new ImageIcon("D:\\CPSC Software Engineering\\Project Stuff\\Caribbean_Stud_Poker\\src\\" + playerHand.get(0) +".jpg"); 
+                            ImageIcon ph2 = new ImageIcon("D:\\CPSC Software Engineering\\Project Stuff\\Caribbean_Stud_Poker\\src\\" + playerHand.get(1) +".jpg"); 
+                            ImageIcon ph3 = new ImageIcon("D:\\CPSC Software Engineering\\Project Stuff\\Caribbean_Stud_Poker\\src\\" + playerHand.get(2) +".jpg"); 
+                            ImageIcon ph4 = new ImageIcon("D:\\CPSC Software Engineering\\Project Stuff\\Caribbean_Stud_Poker\\src\\" + playerHand.get(3) +".jpg"); 
+                            ImageIcon ph5 = new ImageIcon("D:\\CPSC Software Engineering\\Project Stuff\\Caribbean_Stud_Poker\\src\\" + playerHand.get(4) +".jpg"); 
 
-    JLabel label1 = new JLabel(); 
-    JLabel label2 = new JLabel();
-    JLabel label3 = new JLabel();
-    JLabel label4 = new JLabel();
-    JLabel label5 = new JLabel();
-    
-    label1.setIcon(ph1); 
-    newButtons.add(label1);
-    label2.setIcon(ph2); 
-    newButtons.add(label2);
-    label3.setIcon(ph3); 
-    newButtons.add(label3);
-    label4.setIcon(ph4); 
-    newButtons.add(label4);
-    label5.setIcon(ph5); 
-    newButtons.add(label5);
-    
-    dealerSide.setBackground(Color.BLACK); 
-    dealerSide.setLayout(new FlowLayout());
-    ImageIcon dh1 = new ImageIcon("D:\\CPSC Software Engineering\\Project Stuff\\Caribbean_Stud_Poker\\src\\" + dealerHand.get(0) +".jpg"); 
-    ImageIcon dh2 = new ImageIcon("D:\\CPSC Software Engineering\\Project Stuff\\Caribbean_Stud_Poker\\src\\" + dealerHand.get(1) +".jpg"); 
-    ImageIcon dh3 = new ImageIcon("D:\\CPSC Software Engineering\\Project Stuff\\Caribbean_Stud_Poker\\src\\" + dealerHand.get(2) +".jpg"); 
-    ImageIcon dh4 = new ImageIcon("D:\\CPSC Software Engineering\\Project Stuff\\Caribbean_Stud_Poker\\src\\" + dealerHand.get(3) +".jpg"); 
-    ImageIcon dh5 = new ImageIcon("D:\\CPSC Software Engineering\\Project Stuff\\Caribbean_Stud_Poker\\src\\" + dealerHand.get(4) +".jpg"); 
+                            JLabel label1 = new JLabel(); 
+                            JLabel label2 = new JLabel();
+                            JLabel label3 = new JLabel();
+                            JLabel label4 = new JLabel();
+                            JLabel label5 = new JLabel();
 
-    JLabel label6 = new JLabel(); 
-    JLabel label7 = new JLabel();
-    JLabel label8 = new JLabel();
-    JLabel label9 = new JLabel();
-    JLabel label10 = new JLabel();
-    
-    label6.setIcon(dh1); 
-    dealerSide.add(label6);
-    label7.setIcon(dh2); 
-    dealerSide.add(label7);
-    label8.setIcon(dh3); 
-    dealerSide.add(label8);
-    label9.setIcon(dh4); 
-    dealerSide.add(label9);
-    label10.setIcon(dh5); 
-    dealerSide.add(label10);
-    
-    newButtons.setVisible(true);
-    dealerSide.setVisible(true);
-    cspFrame.add(dealerSide);
-    cspFrame.add(newButtons);
-                           
-                           /* Tests */                       
-                           //System.out.println("Player Hand: " + player.getHand());
-                           //System.out.println("Dealer Hand: " + dealer.getHand());
-                           System.out.print("Player Hand: ");
-                           for(int i = 0; i < playerHand.size(); i++)
-                           {
-                               System.out.print("[" + playerHand.get(i) + "] ");
-                           }
-                           System.out.println("");
-                           System.out.print("Dealer Hand: ");
-                           for(int o = 0; o < playerHand.size(); o++)
-                           {
-                               System.out.print("[" + dealerHand.get(o) + "] ");
-                           }
-                           System.out.println("");
+
+                            JTextArea outputText1 = new JTextArea();
+                            outputText1.setEditable(false);
+                            outputText1.setOpaque(false);
+                            outputText1.setText("Your Hand: ");
+                            outputText1.setFont(outputText1.getFont().deriveFont(20f));
+                            //outputText1.setForeground(WHITE);
+                            newButtons.add(outputText1);
+
+                            label1.setIcon(ph1); 
+                            newButtons.add(label1);
+                            label2.setIcon(ph2); 
+                            newButtons.add(label2);
+                            label3.setIcon(ph3); 
+                            newButtons.add(label3);
+                            label4.setIcon(ph4); 
+                            newButtons.add(label4);
+                            label5.setIcon(ph5); 
+                            newButtons.add(label5);
+
+
+                            ImageIcon dh1 = new ImageIcon("D:\\CPSC Software Engineering\\Project Stuff\\Caribbean_Stud_Poker\\src\\" + dealerHand.get(0) +".jpg"); 
+                            ImageIcon dh2 = new ImageIcon("D:\\CPSC Software Engineering\\Project Stuff\\Caribbean_Stud_Poker\\src\\" + dealerHand.get(1) +".jpg"); 
+                            ImageIcon dh3 = new ImageIcon("D:\\CPSC Software Engineering\\Project Stuff\\Caribbean_Stud_Poker\\src\\" + dealerHand.get(2) +".jpg"); 
+                            ImageIcon dh4 = new ImageIcon("D:\\CPSC Software Engineering\\Project Stuff\\Caribbean_Stud_Poker\\src\\" + dealerHand.get(3) +".jpg"); 
+                            ImageIcon dh5 = new ImageIcon("D:\\CPSC Software Engineering\\Project Stuff\\Caribbean_Stud_Poker\\src\\" + dealerHand.get(4) +".jpg"); 
+
+                            JLabel label6 = new JLabel(); 
+                            JLabel label7 = new JLabel();
+                            JLabel label8 = new JLabel();
+                            JLabel label9 = new JLabel();
+                            JLabel label10 = new JLabel();
+
+
+                            JTextArea outputText2 = new JTextArea();
+                            outputText2.setEditable(false);
+                            outputText2.setOpaque(false);
+                            outputText2.setText("Dealer's Hand: ");
+                            outputText2.setFont(outputText2.getFont().deriveFont(20f));
+                            //outputText2.setForeground(WHITE);
+                            dealerSide.add(outputText2);
+
+                            label6.setIcon(dh1); 
+                            dealerSide.add(label6);
+                            label7.setIcon(dh2); 
+                            dealerSide.add(label7);
+                            label8.setIcon(dh3); 
+                            dealerSide.add(label8);
+                            label9.setIcon(dh4); 
+                            dealerSide.add(label9);
+                            label10.setIcon(dh5); 
+                            dealerSide.add(label10);
+
+                            newButtons.setVisible(true);
+                            dealerSide.setVisible(true);
+                            cspFrame.add(dealerSide);
+                            cspFrame.add(newButtons);
                            //remove the progJack button
                            //if the player entered the jackpot, then leave the image in its place 
                            cspFrame.remove(progJack);
@@ -405,14 +430,23 @@ public class CSP_Game
                            //button to raise the current bet 
                            JButton raise = new JButton("Raise");
                            raise.setFont(new Font("Arial", Font.PLAIN, 35));
+                           //raise.setBackground(BLACK);
+                           //raise.setForeground(WHITE);
+                           //raise.setBorderPainted(false);
 
                            //button to fold the current hand 
                            JButton fold = new JButton("Fold");
                            fold.setFont(new Font("Arial", Font.PLAIN, 35));
+                           //fold.setBackground(BLACK);
+                           //fold.setForeground(WHITE);
+                           //fold.setBorderPainted(false);
                            
                            //button to finalize the raises/bet 
                            JButton finalized = new JButton("Finalize");
                            finalized.setFont(new Font("Arial", Font.PLAIN, 35));
+                           //finalized.setBackground(BLACK);
+                           //finalized.setForeground(WHITE);
+                           //finalized.setBorderPainted(false);
                            
                            //remove the play button
                            cspFrame.remove(play);
@@ -494,8 +528,9 @@ public class CSP_Game
                                        if(dealer.getMoney() < answer)
                                        {
                                            int dealerBet = dealer.getMoney();
-                                           System.out.println("Dealer couldn't match player's raise.  All dealer doubloons in pot"); 
-                                           System.out.println("Returnin' difference t' player"); 
+                                           JOptionPane.showMessageDialog(cspFrame, "Dealer couldn't match player's raise.  "
+                                                   + "All dealer's doubloons in pot. "+ "\n" + "Returnin' difference t' player", 
+                                                   "Bettin' Error", JOptionPane.INFORMATION_MESSAGE);
                                            int returnMoney = answer - dealerBet;
                                            player.setMoney(player.getMoney() + returnMoney);
                                            raises -= returnMoney;
@@ -518,9 +553,7 @@ public class CSP_Game
                                        //cspFrame.repaint(); 
                                        
                                        pot += raises;
-                                       
-                                       /* Tests */
-                                       System.out.println("Current Pot: " + pot);
+                                       potText.setText("CURRENT POT: " + pot + "\n" + "Current doubloons: " + player.getMoney());
                                    }
                               }
                            }); 
@@ -542,34 +575,24 @@ public class CSP_Game
                                 int select = JOptionPane.showConfirmDialog(null, "Do ye wants t' fold?", "Fold?", JOptionPane.YES_NO_OPTION); 
                                 if (select == JOptionPane.YES_OPTION) 
                                 {
-                                    dealer.setMoney(dealer.getMoney() + pot);
-                                    //compare cards or just clear hand 
+                                    dealer.setMoney(dealer.getMoney() + pot); 
                                     //start a new round
                                     int startAgain = JOptionPane.showConfirmDialog(null, "Do ye wants t' start a new round?", 
                                             "Start New Round?", JOptionPane.YES_NO_OPTION); 
                                     if (startAgain == JOptionPane.NO_OPTION) 
-                                    {
-                                        System.out.println("Aye, returnin' t' main menu"); 
+                                    { 
+                                        JOptionPane.showMessageDialog(cspFrame, "Aye, returnin' t' main menu", "Retreat", 
+                                               JOptionPane.INFORMATION_MESSAGE);
                                         startFrame returnStart = new startFrame();
                                         returnStart.run();
                                         cspFrame.dispose();
                                     }
                                     else if (startAgain == JOptionPane.YES_OPTION)
                                     {
-                                        //remove all buttons and text from screen
-                                        //display the ante button 
-                                        cspFrame.removeAll();
-                                        cspFrame.revalidate();
-                                        cspFrame.repaint(); 
-                                        pot = 0; 
-                                        
-                                        System.out.println("Current Player Money: " + player.getMoney());
-                                        System.out.println("Current Dealer Money: " + player.getMoney());
-                                        cspFrame.add(placeAnte);
-                                        cspFrame.add(close);
-                                        
-                                        cspFrame.revalidate();
-                                        cspFrame.repaint(); 
+                                        //create a new frame to make and discard the current frame 
+                                        CSP_Game newRound = new CSP_Game();
+                                        newRound.run(player.getMoney(), dealer.getMoney());
+                                        cspFrame.dispose(); 
                                     }
                                 }
                               }
@@ -607,9 +630,6 @@ public class CSP_Game
                         }
                  });                  
                 }
-               
-                //add any remaining buttons and set the JPanel visibility to true, size to whatever you want it to be, and add the JPanel to the frame
-                //
                 cspFrame.pack();
            }
         });
@@ -619,7 +639,7 @@ public class CSP_Game
          * Set layout of the frame
          * Then, add each part of the frame
          */
-        cspFrame.setLayout(new GridLayout(1, 10));
+        cspFrame.setLayout(new GridLayout(6, 3));
         //cspFrame.setLayout(new FlowLayout());
         cspFrame.add(placeAnte);
         cspFrame.add(close);

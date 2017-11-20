@@ -388,10 +388,15 @@ public class CSP_Game extends JFrame
 
 
                             ImageIcon dh1 = new ImageIcon("D:\\CPSC Software Engineering\\Project Stuff\\Caribbean_Stud_Poker\\src\\" + dealerHand.get(0) +".jpg"); 
-                            ImageIcon dh2 = new ImageIcon("D:\\CPSC Software Engineering\\Project Stuff\\Caribbean_Stud_Poker\\src\\" + dealerHand.get(1) +".jpg"); 
-                            ImageIcon dh3 = new ImageIcon("D:\\CPSC Software Engineering\\Project Stuff\\Caribbean_Stud_Poker\\src\\" + dealerHand.get(2) +".jpg"); 
-                            ImageIcon dh4 = new ImageIcon("D:\\CPSC Software Engineering\\Project Stuff\\Caribbean_Stud_Poker\\src\\" + dealerHand.get(3) +".jpg"); 
-                            ImageIcon dh5 = new ImageIcon("D:\\CPSC Software Engineering\\Project Stuff\\Caribbean_Stud_Poker\\src\\" + dealerHand.get(4) +".jpg"); 
+                            ImageIcon dh2 = new ImageIcon("D:\\CPSC Software Engineering\\Project Stuff\\Caribbean_Stud_Poker\\src\\backCard.png"); 
+                            ImageIcon dh3 = new ImageIcon("D:\\CPSC Software Engineering\\Project Stuff\\Caribbean_Stud_Poker\\src\\backCard.png"); 
+                            ImageIcon dh4 = new ImageIcon("D:\\CPSC Software Engineering\\Project Stuff\\Caribbean_Stud_Poker\\src\\backCard.png"); 
+                            ImageIcon dh5 = new ImageIcon("D:\\CPSC Software Engineering\\Project Stuff\\Caribbean_Stud_Poker\\src\\backCard.png"); 
+
+                            //ImageIcon dh2 = new ImageIcon("D:\\CPSC Software Engineering\\Project Stuff\\Caribbean_Stud_Poker\\src\\" + dealerHand.get(1) +".jpg"); 
+                            //ImageIcon dh3 = new ImageIcon("D:\\CPSC Software Engineering\\Project Stuff\\Caribbean_Stud_Poker\\src\\" + dealerHand.get(2) +".jpg"); 
+                            //ImageIcon dh4 = new ImageIcon("D:\\CPSC Software Engineering\\Project Stuff\\Caribbean_Stud_Poker\\src\\" + dealerHand.get(3) +".jpg"); 
+                            //ImageIcon dh5 = new ImageIcon("D:\\CPSC Software Engineering\\Project Stuff\\Caribbean_Stud_Poker\\src\\" + dealerHand.get(4) +".jpg"); 
 
                             JLabel label6 = new JLabel(); 
                             JLabel label7 = new JLabel();
@@ -575,7 +580,8 @@ public class CSP_Game extends JFrame
                                 int select = JOptionPane.showConfirmDialog(null, "Do ye wants t' fold?", "Fold?", JOptionPane.YES_NO_OPTION); 
                                 if (select == JOptionPane.YES_OPTION) 
                                 {
-                                    dealer.setMoney(dealer.getMoney() + pot); 
+                                    dealer.setMoney(dealer.getMoney() + pot);
+                                    //compare cards or just clear hand 
                                     //start a new round
                                     int startAgain = JOptionPane.showConfirmDialog(null, "Do ye wants t' start a new round?", 
                                             "Start New Round?", JOptionPane.YES_NO_OPTION); 
@@ -616,14 +622,41 @@ public class CSP_Game extends JFrame
                                           "Do ye wish t' compare cards now?", "Done Raising?", JOptionPane.YES_NO_OPTION);
                                   if (done == JOptionPane.YES_OPTION)
                                   {
-                                      cspFrame.remove(raise);
-                                      cspFrame.remove(fold);
-                                      cspFrame.remove(finalized);  
-                                      
-                                      
-                                      cspFrame.revalidate();
-                                      cspFrame.repaint(); 
-                                      //compare cards now 
+                                    //clear the frame
+                                    cspFrame.remove(raise);
+                                    cspFrame.remove(fold);
+                                    cspFrame.remove(finalized);  
+                                    //replace the backCard images for the dealer's hand with the 
+                                    //actual cards in the dealer's hand 
+                                    ImageIcon dh1 = new ImageIcon("D:\\CPSC Software Engineering\\Project Stuff\\Caribbean_Stud_Poker\\src\\" + dealerHand.get(0) +".jpg"); 
+                                    ImageIcon dh2 = new ImageIcon("D:\\CPSC Software Engineering\\Project Stuff\\Caribbean_Stud_Poker\\src\\" + dealerHand.get(1) +".jpg"); 
+                                    ImageIcon dh3 = new ImageIcon("D:\\CPSC Software Engineering\\Project Stuff\\Caribbean_Stud_Poker\\src\\" + dealerHand.get(2) +".jpg"); 
+                                    ImageIcon dh4 = new ImageIcon("D:\\CPSC Software Engineering\\Project Stuff\\Caribbean_Stud_Poker\\src\\" + dealerHand.get(3) +".jpg"); 
+                                    ImageIcon dh5 = new ImageIcon("D:\\CPSC Software Engineering\\Project Stuff\\Caribbean_Stud_Poker\\src\\" + dealerHand.get(4) +".jpg");
+                                    
+                                    dealerSide.removeAll();
+                                    
+                                    outputText2.setText(null);
+                                    outputText2.setText("Dealer's Hand: ");
+                                    outputText2.setFont(outputText2.getFont().deriveFont(20f));
+                                    //outputText2.setForeground(WHITE);
+                                    dealerSide.add(outputText2);
+
+                                    label6.setIcon(dh1); 
+                                    dealerSide.add(label6);
+                                    label7.setIcon(dh2); 
+                                    dealerSide.add(label7);
+                                    label8.setIcon(dh3); 
+                                    dealerSide.add(label8);
+                                    label9.setIcon(dh4); 
+                                    dealerSide.add(label9);
+                                    label10.setIcon(dh5); 
+                                    dealerSide.add(label10);
+                                    cspFrame.revalidate();
+                                    cspFrame.repaint(); 
+                                    
+                                    
+                                    //compare cards now 
                                   }
                               }
                            }); 
